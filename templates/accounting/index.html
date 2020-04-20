@@ -1,0 +1,69 @@
+{% extends 'base.html'%}
+{% load humanize %}
+
+{% block content %}
+
+<h1 style="text-align: center;">Accounting</h1>
+<hr>
+<p style="text-align: center;">Journal Entry</p>
+<div style='padding: 10px; text-align: center; background-color: #80e27e; display: table; margin: 0 auto;'>
+    <form method='POST' >
+        {% csrf_token %}
+        <!-- account1 -->
+        <div style="display: block;">
+            <input type="text" name="account_name" list="accounts" autocomplete="off">
+            <datalist id="accounts">
+                {% for account in account_list %}
+                    <option>{{account.account_name}}</option>
+                {% endfor %}
+            </datalist>
+            <input type="number" style="margin-left: 40px;" name="amount" placeholder="Enter an amount">
+            <select name="accounting_side">
+                <option>Debit</option>
+                <option>Credit</option>
+            </select>
+        </div>
+        <!-- /account1 -->
+        
+        <!-- account2 -->
+        <div style="display: block; margin: 10px;">
+            <input type="text" name="account_name2" list="accounts2" autocomplete="off">
+            <datalist id="accounts2">
+                {% for account in account_list %}
+                    <option>{{account.account_name}}</option>
+                {% endfor %}
+            </datalist>
+            <input type="number" style="margin-left: 40px;" name="amount2" placeholder="Enter an amount">
+            <select name="accounting_side2">
+                <option>Debit</option>
+                <option>Credit</option>
+            </select>
+        </div>
+        <!-- /account2 -->
+
+        <!-- submit button -->
+        <input style="display: block; margin: 1rem auto;" type='submit' value='Submit'>
+    </form>
+</div>
+
+<div style="text-align: center;">
+    {{message}}
+</div>
+<h3 style="text-align: center; margin-top: 5vh;">Accounts:</h3>
+<div style="display: block; margin-top: 1vh;">
+    {% for account in account_list %}
+        <div style="display: block; text-align: center;">
+            {{account.account_number}}
+             - 
+            {{account.account_name}} -
+            
+           ${{account.account_balance|intcomma}}
+
+
+        </div>
+    {% endfor %}
+</div>
+
+
+
+{% endblock %}
